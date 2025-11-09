@@ -1,0 +1,6 @@
+[[config]]
+
+name = "My Odoo Config"
+
+odoo_path = "/Users/abdullah/Documents/work/kayan/odoo_2/odoo"
+addons_paths = ["${workspaceFolder}/odoo/addons", "${workspaceFolder}/tutorials", "$autoDetectAddons"]
