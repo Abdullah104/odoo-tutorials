@@ -1,6 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 
 
 class RealEstate(models.Model):
@@ -54,3 +55,21 @@ class RealEstate(models.Model):
             self.garden_orientation = None
 
         return {'warning': {'title': 'Garden', 'message': 'Garden area and orientation have changed'}}
+
+    def action_sell_property(self):
+        for record in self:
+            if record.state == 'cancelled':
+                raise UserError('A cancelled property cannot be set as sold')
+
+            record.state = 'sold'
+
+        return True
+
+    def action_cancel_property(self):
+        for record in self:
+            if record.state == 'sold':
+                raise UserError('A sold property cannot be set as cancelled')
+
+            record.state = 'cancelled'
+
+        return True

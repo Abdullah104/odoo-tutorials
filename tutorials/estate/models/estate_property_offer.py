@@ -1,6 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 
 
 class EstatePropertyOffer(models.Model):
@@ -17,10 +18,30 @@ class EstatePropertyOffer(models.Model):
     @api.depends('create_date', 'validity')
     def _compute_date_deadline(self):
         for record in self:
-            record.date_deadline = self.create_date if self.create_date else fields.Date.today() + relativedelta(
-                days=self.validity)
+            record.date_deadline = record.create_date if record.create_date else fields.Date.today() + relativedelta(
+                days=record.validity)
 
     def _inverse_date_deadline(self):
         for record in self:
             record.validity = (
                 record.date_deadline - record.create_date if record.create_date else fields.Date.today()).days
+
+    def action_accept_offer(self):
+        accepted_offer_exists = self.property_id.state == 'offer_accepted'
+
+        if accepted_offer_exists:
+            raise UserError('An accepted offer already exists')
+
+        for record in self:
+            record.property_id.selling_price = self.price
+            record.property_id.state = 'offer_accepted'
+
+            record.status = 'accepted'
+
+        return True
+
+    def action_refuse_offer(self):
+        for record in self:
+            record.status = 'refused'
+
+        return True
