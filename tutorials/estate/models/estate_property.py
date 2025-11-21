@@ -1,7 +1,8 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, fields
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_utils
 
 
 class RealEstate(models.Model):
@@ -34,6 +35,10 @@ class RealEstate(models.Model):
     offer_ids = fields.One2many('estate.property.offer', 'property_id')
     total_area = fields.Integer(compute='_compute_total_area', string='Total Area (sqm)')
     best_price = fields.Float(compute='_compute_best_price')
+    _check_expected_price = models.Constraint('CHECK(expected_price > 0)',
+                                              'The expected price of a property should be strictly positive (larger than zero)')
+    _check_selling_price = models.Constraint('CHECK(selling_price >= 0)',
+                                             'The selling price of a property should be positive (larger than or equal to zero)')
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -50,11 +55,11 @@ class RealEstate(models.Model):
         if self.garden:
             self.garden_area = 10
             self.garden_orientation = 'north'
+
+            return {'warning': {'title': 'Garden', 'message': 'Garden area and orientation have changed'}}
         else:
             self.garden_area = 0
             self.garden_orientation = None
-
-        return {'warning': {'title': 'Garden', 'message': 'Garden area and orientation have changed'}}
 
     def action_sell_property(self):
         for record in self:
@@ -73,3 +78,12 @@ class RealEstate(models.Model):
             record.state = 'cancelled'
 
         return True
+
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            if float_utils.float_is_zero(record.selling_price, precision_rounding=2):
+                continue
+
+            if float_utils.float_compare(record.selling_price, record.expected_price * .9, precision_rounding=2) == -1:
+                raise ValidationError('The selling price cannot be less than 90% of the expected price')
