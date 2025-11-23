@@ -11,6 +11,7 @@
         "views/estate_property/estate_property_search_view.xml",
         "views/estate_property/estate_property_views.xml",
         "views/estate_property_type/estate_property_type_views.xml",
+        "views/estate_property_type/estate_property_type_form_view.xml",
         "views/estate_property_tag/estate_property_tag_views.xml",
         "views/estate_property_offer/estate_property_offer_list_view.xml",
         "views/estate_property_offer/estate_property_offer_form_view.xml",

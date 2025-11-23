@@ -5,7 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_utils
 
 
-class RealEstate(models.Model):
+class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real estate property'
 
@@ -35,6 +35,7 @@ class RealEstate(models.Model):
     offer_ids = fields.One2many('estate.property.offer', 'property_id')
     total_area = fields.Integer(compute='_compute_total_area', string='Total Area (sqm)')
     best_price = fields.Float(compute='_compute_best_price')
+    line_ids = fields.One2many('estate.property.line', 'property_id')
     _check_expected_price = models.Constraint('CHECK(expected_price > 0)',
                                               'The expected price of a property should be strictly positive (larger than zero)')
     _check_selling_price = models.Constraint('CHECK(selling_price >= 0)',
@@ -87,3 +88,13 @@ class RealEstate(models.Model):
 
             if float_utils.float_compare(record.selling_price, record.expected_price * .9, precision_rounding=2) == -1:
                 raise ValidationError('The selling price cannot be less than 90% of the expected price')
+
+
+class EstatePropertyLine(models.Model):
+    _name = 'estate.property.line'
+    _description = 'Estate property line'
+
+    property_id = fields.Many2one('estate.property')
+    name = fields.Char()
+    expected_price = fields.Char()
+    state = fields.Char()
