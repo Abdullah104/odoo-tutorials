@@ -42,6 +42,12 @@ class EstateProperty(models.Model):
     _check_selling_price = models.Constraint('CHECK(selling_price >= 0)',
                                              'The selling price of a property should be positive (larger than or equal to zero)')
 
+    @api.ondelete(at_uninstall=False)
+    def _unlink_estate_property(self):
+        for record in self:
+            if record.state not in ['new', 'cancelled']:
+                raise UserError('Only new and cancelled properties can be deleted')
+
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
         for record in self:
