@@ -19,6 +19,7 @@
         "views/estate_property_type/estate_property_type_list_view.xml",
         "views/estate_property_tag/estate_property_tag_views.xml",
         "views/estate_property_tag/estate_property_tag_list_view.xml",
+        "views/estate_property_tag/estate_property_tag_form_view.xml",
         "views/estate_menus.xml",
         "views/res_users/res_users_properties_view.xml",
     ]

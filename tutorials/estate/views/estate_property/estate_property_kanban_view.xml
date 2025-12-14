@@ -20,7 +20,7 @@
                         <div t-if="record.state.raw_value == 'offer_accepted'">Selling Price:
                             <field name="selling_price"/>
                         </div>
-                        <field name="tag_ids"/>
+                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                     </t>
                 </templates>
             </kanban>
