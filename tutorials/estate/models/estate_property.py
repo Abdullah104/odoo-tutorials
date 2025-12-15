@@ -37,6 +37,7 @@ class EstateProperty(models.Model):
     total_area = fields.Integer(compute='_compute_total_area', string='Total Area (sqm)')
     best_price = fields.Float(compute='_compute_best_price')
     line_ids = fields.One2many('estate.property.line', 'property_id')
+
     _check_expected_price = models.Constraint('CHECK(expected_price > 0)',
                                               'The expected price of a property should be strictly positive (larger than zero)')
     _check_selling_price = models.Constraint('CHECK(selling_price >= 0)',
