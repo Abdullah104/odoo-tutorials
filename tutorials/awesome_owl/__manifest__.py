@@ -27,13 +27,19 @@
         'views/templates.xml',
     ],
     'assets': {
+        'web.assets_backend': [
+            'awesome_owl/static/src/**/*',
+        ],
         'awesome_owl.assets_playground': [
             ('include', 'web._assets_helpers'),
             'web/static/src/scss/pre_variables.scss',
             'web/static/lib/bootstrap/scss/_variables.scss',
-            ('include', 'web._assets_bootstrap'),
+            ('include', 'web._assets_primary_variables'),
+            ('include', 'web._assets_secondary_variables'),
+            ('include', 'web._assets_bootstrap_backend'),
             ('include', 'web._assets_core'),
             'web/static/src/libs/fontawesome/css/font-awesome.css',
+            'web/static/src/scss/ui.scss',
             'awesome_owl/static/src/**/*',
         ],
     },
