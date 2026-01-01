@@ -11,5 +11,6 @@
                 <t t-esc="state.sum"/>
             </p>
         </div>
+        <TodoList/>
     </t>
 </templates>
