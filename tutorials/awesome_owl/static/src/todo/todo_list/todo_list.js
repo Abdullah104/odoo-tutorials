@@ -9,6 +9,7 @@ export class TodoList extends Component {
 
   setup() {
     this.todos = useState([
+      new TodoModel({ id: 2, description: "write tutorial", isCompleted: true }),
       new TodoModel({ id: 3, description: "buy milk", isCompleted: false }),
     ]);
   }
