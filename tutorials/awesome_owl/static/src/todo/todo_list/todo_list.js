@@ -1,6 +1,7 @@
-import { Component, useState, useRef } from "@odoo/owl";
+import { Component, useState, useRef, onMounted } from "@odoo/owl";
 import { TodoItem } from "../todo_item/todo_item";
 import { TodoModel } from "../todo_model";
+import { useAutoFocus } from "../../utils";
 
 export class TodoList extends Component {
   static template = "awesome_owl.todo_list";
@@ -12,9 +13,11 @@ export class TodoList extends Component {
   setup() {
     this.todos = useState([]);
     this.inputRef = useRef("input");
+
+    onMounted(() => useAutoFocus(this.inputRef))
   }
 
-  addTodo = (event) => {
+  addTodo(event) {
     if (event.keyCode !== 13) return;
 
     if (!event.target.value) return;
@@ -28,5 +31,5 @@ export class TodoList extends Component {
     );
 
     event.target.value = "";
-  };
+  }
 }
