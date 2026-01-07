@@ -14,7 +14,7 @@ export class TodoList extends Component {
     this.todos = useState([]);
     this.inputRef = useRef("input");
 
-    onMounted(() => useAutoFocus(this.inputRef))
+    onMounted(() => useAutoFocus(this.inputRef));
   }
 
   addTodo(event) {
@@ -27,9 +27,11 @@ export class TodoList extends Component {
         id: this.idCounter++,
         description: event.target.value,
         isCompleted: false,
-      })
+      }),
     );
 
     event.target.value = "";
   }
+
+  toggleState = (todo) => (todo.isCompleted = !todo.isCompleted);
 }

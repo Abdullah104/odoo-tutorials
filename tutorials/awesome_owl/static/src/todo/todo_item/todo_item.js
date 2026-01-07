@@ -6,5 +6,6 @@ export class TodoItem extends Component {
 
   static props = {
     todo: TodoModel,
+    toggleState: Function,
   };
 }
