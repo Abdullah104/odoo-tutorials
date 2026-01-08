@@ -16,6 +16,11 @@
             <t t-esc="props.todo.id" />.
             <t t-esc="props.todo.description" />
         </label>
+        <span
+                class="fa fa-remove ps-1 text-danger"
+                role="button"
+                t-on-click="() => props.removeTodo(props.todo)"
+            />
     </div>
   </t>
 </templates>

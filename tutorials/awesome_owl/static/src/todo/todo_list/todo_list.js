@@ -34,4 +34,11 @@ export class TodoList extends Component {
   }
 
   toggleState = (todo) => (todo.isCompleted = !todo.isCompleted);
+
+  removeTodo = (todo) => {
+    this.todos.splice(
+      this.todos.findIndex((t) => t.id === todo.id),
+      1,
+    );
+  };
 }

@@ -15,6 +15,7 @@
                 t-key="todo.id"
                 todo="todo"
                 toggleState="toggleState"
+                removeTodo="removeTodo"
             />
     </div>
   </t>
