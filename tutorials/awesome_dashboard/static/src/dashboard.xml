@@ -13,7 +13,11 @@
                     t-on-click="openLeads"
                 >Leads</button>
             </t>
-            Hello Dashboard
+            <div class="d-flex gap-2 p-1">
+                <DashboardItem>some content</DashboardItem>
+                <DashboardItem size="2">I love milk</DashboardItem>
+                <DashboardItem>some content</DashboardItem>
+            </div>
         </Layout>
     </t>
 
