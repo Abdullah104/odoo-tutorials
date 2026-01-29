@@ -9,5 +9,7 @@ export class DashboardItem extends Component {
       optional: true,
       default: 1,
     },
+    stat: String,
+    value: Number,
   };
 }
