@@ -13,7 +13,7 @@
                     t-on-click="openLeads"
                 >Leads</button>
             </t>
-            <div class="d-flex flex-wrap gap-2 p-1">
+            <div class="d-flex flex-wrap gap-2 p-1" t-if="statistics.isReady">
                 <DashboardItem>
                     Average amount of t-shirt by order this month
                     <div class="fs-1 fw-bold text-success text-center">
