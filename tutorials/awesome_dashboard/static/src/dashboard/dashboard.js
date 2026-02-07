@@ -4,6 +4,8 @@ import { Layout } from "@web/search/layout";
 import { useService } from "@web/core/utils/hooks";
 import { _t } from "@web/core/l10n/translation";
 import { DashboardItem } from "./dashboard_item/dashboard_item";
+import { browser } from "@web/core/browser/browser";
+import { ConfigurationDialog } from "./configuration_dialog/configuration_dialog";
 
 class AwesomeDashboard extends Component {
   static template = "awesome_dashboard.AwesomeDashboard";
@@ -12,7 +14,13 @@ class AwesomeDashboard extends Component {
   setup() {
     this.action = useService("action");
     this.statistics = useState(useService("awesome_dashboard.statistics"));
+    this.dialog = useService("dialog");
     this.items = registry.category("awesome_dashboard").getAll();
+    this.state = useState({
+      disabledItems:
+        browser.localStorage.getItem("disabledDashboardItems")?.split(",") ||
+        [],
+    });
   }
 
   openCustomers() {
@@ -27,6 +35,18 @@ class AwesomeDashboard extends Component {
       res_id: activity.res_id,
       res_model: "crm.lead",
       views: [[false, "form"]],
+    });
+  }
+
+  updateConfiguration(newDisabledItems) {
+    this.state.disabledItems = newDisabledItems;
+  }
+
+  openConfiguration() {
+    this.dialog.add(ConfigurationDialog, {
+      items: this.items,
+      disabledItems: this.state.disabledItems,
+      onUpdateConfiguration: this.updateConfiguration.bind(this),
     });
   }
 }
